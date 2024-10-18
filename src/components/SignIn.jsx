@@ -104,7 +104,7 @@ export default function SignIn(props) {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage("Password must be at least 8 characters long.");
       isValid = false;
     } else {
       setPasswordError(false);
