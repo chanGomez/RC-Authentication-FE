@@ -149,7 +149,6 @@ export default function SignUp() {
         <CssBaseline enableColorScheme />
         <SignUpContainer direction="column" justifyContent="space-between">
           <Card variant="outlined">
-            <SitemarkIcon />
             <Typography
               component="h1"
               variant="h4"
@@ -231,27 +230,6 @@ export default function SignUp() {
                   </Link>
                 </span>
               </Typography>
-            </Box>
-            <Divider>
-              <Typography sx={{ color: "text.secondary" }}>or</Typography>
-            </Divider>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert("Sign up with Google")}
-                startIcon={<GoogleIcon />}
-              >
-                Sign up with Google
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert("Sign up with Facebook")}
-                startIcon={<FacebookIcon />}
-              >
-                Sign up with Facebook
-              </Button>
             </Box>
           </Card>
         </SignUpContainer>
