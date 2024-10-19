@@ -1,16 +1,17 @@
-import Axios from "./Axios";
+import axios from "./axios";
 
 async function spinUpServer() {
   try {
-    await Axios.get("/");
+    await axios.get("/");
   } catch (error) {
     return error;
   }
 }
 
 async function createNewUser(data) {
+  console.log(data)
   try {
-    let result = await Axios.post("/auth/register", data);
+    let result = await axios.post("/auth/sign-up", data);
     return result;
   } catch (error) {
     return error;
@@ -19,7 +20,7 @@ async function createNewUser(data) {
 
 async function signInUser(data) {
   try {
-    let result = await Axios.post("/sign-in", data);
+    let result = await axios.post("/sign-in", data);
     return result;
   } catch (error) {
     return error;
@@ -28,7 +29,7 @@ async function signInUser(data) {
 
 async function forgotPassword(data) {
   try {
-    let result = await Axios.post("/forgot-password", data);
+    let result = await axios.post("/forgot-password", data);
     return result;
   } catch (error) {
     return error;
@@ -37,7 +38,7 @@ async function forgotPassword(data) {
 
 async function resetPassword(data) {
   try {
-    let result = await Axios.post("/reset-password", data);
+    let result = await axios.post("/reset-password", data);
     return result;
   } catch (error) {
     return error;
@@ -46,7 +47,7 @@ async function resetPassword(data) {
 
 async function getMovies() {
   try {
-    let result = await Axios.get("/movies");
+    let result = await axios.get("/movies");
     return result;
   } catch (error) {
     return error;

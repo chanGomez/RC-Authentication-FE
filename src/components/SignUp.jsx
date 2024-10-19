@@ -19,6 +19,7 @@ import TemplateFrame from "../../TemplateFrame";
 import validatePassword from "../utils/validate"
 import { createNewUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -55,22 +56,22 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [mode, setMode] = React.useState("light");
-  const [userNameError, setUserNameError] = React.useState(false);
-  const [userNameErrorMessage, setUserNameMessage] = React.useState("");
+  const [usernameError, setUsernameError] = React.useState(false);
+  const [usernameErrorMessage, setUsernameMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  
-  
+  const [qrCode, setQrCode] = React.useState(null); // For displaying the QR code
+  const [manualKey, setManualKey] = React.useState(""); // Manual key fallback
 
   const validateInputs = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
-    const userName = document.getElementById("userName");
+    const username = document.getElementById("username");
 
     let isValid = true;
 
@@ -82,41 +83,48 @@ export default function SignUp() {
       setEmailError(false);
       setEmailErrorMessage("");
     }
-    
+
     let isPasswordValid = validatePassword(password);
     if (isPasswordValid === true) {
       passwordError(true);
       setPasswordErrorMessage(isPasswordValid.message);
     }
 
-    if (!userName.value || userName.value.length < 1) {
-      setUserNameError(true);
-      setUserNameMessage("A username is required.");
+    if (!username.value || username.value.length < 1) {
+      setUsernameError(true);
+      setUsernameMessage("A username is required.");
       isValid = false;
     } else {
-      setUserNameError(false);
-      setUserNameMessage("");
+      setUsernameError(false);
+      setUsernameMessage("");
     }
 
     return isValid;
   };
 
-  async function handleSubmit (event) {
-          event.preventDefault();
-    if (userNameError || emailError || passwordError) {
-      return;
-    }
-    const userData = new FormData(event.currentTarget);
-    console.log({
-      userName: userData.get("userName"),
-      email: userData.get("email"),
-      password: userData.get("password"),
-    });
-  
-      const newUserCreated = await createNewUser(userData);
-      console.log(newUserCreated)
-      navigate(`/movies`);
-  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (usernameError || emailError || passwordError) return;
+
+        try {
+          const data = new FormData(event.currentTarget);
+          let userData = {
+            username: data.get("username"),
+            email: data.get("email"),
+            password: data.get("password"),
+          };
+
+          const res = await createNewUser(userData);
+          setQrCode(res.data.qrCode);
+          setManualKey(res.data.manualKey); // Set manual key for fallback
+          alert("Please scan the QR code with your authenticator app.");
+
+          navigate(`/movies`);
+        } catch (error) {
+          console.error("Registration failed:", error);
+          alert("Error during registration.");
+        }
+  }
 
   return (
     <>
@@ -136,17 +144,17 @@ export default function SignUp() {
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="userName">Username</FormLabel>
+              <FormLabel htmlFor="username">Username</FormLabel>
               <TextField
-                autoComplete="userName"
-                name="userName"
+                autoComplete="username"
+                name="username"
                 required
                 fullWidth
-                id="userName"
+                id="username"
                 placeholder="JamesBond"
-                error={userNameError}
-                helperText={userNameErrorMessage}
-                color={userNameError ? "error" : "primary"}
+                error={usernameError}
+                helperText={usernameErrorMessage}
+                color={usernameError ? "error" : "primary"}
               />
             </FormControl>
             <FormControl>
