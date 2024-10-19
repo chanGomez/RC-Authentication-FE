@@ -20,12 +20,31 @@ async function createNewUser(data) {
 
 async function signInUser(data) {
   try {
-    let result = await axios.post("/sign-in", data);
+    let result = await axios.post("/auth/sign-in", data);
     return result;
   } catch (error) {
     return error;
   }
 }
+
+async function enable2FactorAuth(data) {
+  try {
+    let result = await axios.post("/auth/enable2fa", data);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function verify2FactorAuth(data) {
+  try {
+    let result = await axios.post("/auth/verify2fa", data);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
 
 async function forgotPassword(data) {
   try {
@@ -56,7 +75,9 @@ async function getMovies() {
 
 export {
   spinUpServer,
+  enable2FactorAuth,
   createNewUser,
+  verify2FactorAuth,
   signInUser,
   forgotPassword,
   resetPassword,

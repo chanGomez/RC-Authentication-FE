@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import ForgotPassword from "./components/ForgotPassword";
+// import ForgotPassword from "./components/ForgotPassword";
 import TemplateFrame from "../TemplateFrame";
 import getSignUpTheme from "../theme/getSignUpTheme";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
@@ -52,7 +52,7 @@ function App() {
             <Route path="/" element={<p>HOME</p>} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             <Route path="/movies" element={<Movies />} />
           </Routes>
         </Router>

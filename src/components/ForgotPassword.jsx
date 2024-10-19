@@ -51,9 +51,9 @@ function ForgotPassword({ open, handleClose }) {
   );
 }
 
-ForgotPassword.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
+// ForgotPassword.propTypes = {
+//   handleClose: PropTypes.func.isRequired,
+//   open: PropTypes.bool.isRequired,
+// };
 
 export default ForgotPassword;

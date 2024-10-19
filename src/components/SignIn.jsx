@@ -18,6 +18,9 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../..//CustomIcons";
 // import AppTheme from "../../shared-theme/AppTheme"
 import ColorModeSelect from "../../shared-theme/ColorModeSelect";
 import TemplateFrame from "../../TemplateFrame";
+import {signInUser} from "../API/API";
+import { useNavigate } from "react-router-dom";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -60,7 +63,8 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function SignIn() {
+    const navigate = useNavigate();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -75,18 +79,25 @@ export default function SignIn(props) {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (emailError || passwordError) return;
 
+    try {
+      const data = new FormData(event.currentTarget);
+      let userData = {
+        email: data.get("email"),
+        password: data.get("password"),
+      };
+      const res = await signInUser(userData);
+      console.log("result: ", res);
+
+      // navigate(`/movies`);
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Error during registration.");
+    }
+  }
   const validateInputs = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -233,6 +244,6 @@ export default function SignIn(props) {
           </Box> */}
         </Card>
       </SignInContainer>
-      </>
+    </>
   );
 }

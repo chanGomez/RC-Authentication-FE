@@ -16,10 +16,12 @@ import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import getSignUpTheme from "../../theme/getSignUpTheme";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../../CustomIcons";
 import TemplateFrame from "../../TemplateFrame";
-import validatePassword from "../utils/validate"
+import validatePassword from "../utils/validate";
 import { createNewUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import QRCodeComponent from "./QRCodeComponent";
+import { enable2FactorAuth } from "../API/API";
+import { verify2FactorAuth } from "../API/API";
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -58,16 +60,18 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignUp() {
   const navigate = useNavigate();
-
-  const [mode, setMode] = React.useState("light");
   const [usernameError, setUsernameError] = React.useState(false);
   const [usernameErrorMessage, setUsernameMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
+  const [email, setEmail] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [qrCode, setQrCode] = React.useState(null); // For displaying the QR code
   const [manualKey, setManualKey] = React.useState(""); // Manual key fallback
+  const [userRegistered, setUserRegistered] = React.useState(false);
+  const [totp, setTotp] = React.useState("");
+
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -82,7 +86,7 @@ export default function SignUp() {
       isValid = false;
     } else {
       setEmailError(false);
-      setEmailErrorMessage("");
+      setEmailErrorMessage("Not a valid email");
     }
 
     let isPasswordValid = validatePassword(password);
@@ -97,7 +101,7 @@ export default function SignUp() {
       isValid = false;
     } else {
       setUsernameError(false);
-      setUsernameMessage("");
+      setUsernameMessage("Username already registered");
     }
 
     return isValid;
@@ -107,30 +111,49 @@ export default function SignUp() {
     event.preventDefault();
     if (usernameError || emailError || passwordError) return;
 
-        try {
-          const data = new FormData(event.currentTarget);
-          let userData = {
-            username: data.get("username"),
-            email: data.get("email"),
-            password: data.get("password"),
-          };
-          console.log("line 116");
-          
-          const res = await createNewUser(userData);
-          console.log("line 116", res);
+    const data = new FormData(event.currentTarget);
+    let userData = {
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
 
-          setQrCode(res.data.qrCode);
-          setManualKey(res.data.manualKey); // Set manual key for fallback
-          // alert("Please scan the QR code with your authenticator app.");
+    const resultUser = await createNewUser(userData);
+    setEmail(userData.email)
+    console.log(resultUser);
+    setUserRegistered(true);
 
-          //should the user be promoted to login or straight in?
-          navigate(`/verify`);
+    const resultQRcode = await enable2FactorAuth(userData.email);
 
+    if (resultQRcode) {
+      console.log(resultQRcode); // Check what is being returned
+      setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
+      setManualKey(resultQRcode.data.manualKey);
+    } else {
+      console.log(resultQRcode); // Check what is being returned
+      alert("WTFFFFFFFF");
+    }
+  }
 
-        } catch (error) {
-          console.error("Registration failed:", error);
-          alert("Error during registration.");
-        }
+  async function handleVerifyTotp(event) {
+    event.preventDefault();
+
+    try {
+
+      const isValid = await verify2FactorAuth(totp, email);
+
+      if (isValid) {
+        alert("Logged in after 2fa");
+        navigate(`/movies`);
+      } else {
+        alert("Logged 2fa failed");
+      }
+
+      //should the user be promoted to login or straight in?
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Error during Login.");
+    }
   }
 
   return (
@@ -143,15 +166,25 @@ export default function SignUp() {
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-                       {qrCode ? ("Enable Second Auth") : ("Sign Up")}
+            {userRegistered ? "Enable 2 Factor Authentication" : "Sign Up"}
           </Typography>
-          {qrCode ? (
+          {userRegistered ? (
             <div>
               <h3>Scan this QR code with your authenticator app:</h3>
-              <QRCodeComponent value={qrCode} />
-              <p>Manual Key: {manualKey}</p>
+              <QRCodeComponent qrCode={qrCode} />
+              <p>manualKey: {manualKey}</p>
+              <input
+                type="text"
+                id="totp"
+                name="totp"
+                value={totp}
+                onChange={(e) => setTotp(e.target.value)}
+                placeholder="Enter TOTP"
+              />
+              <button onClick={handleVerifyTotp}>Verify TOTP</button>
             </div>
           ) : (
+            // Sign Up form JSX
             <Box
               component="form"
               onSubmit={handleSubmit}
