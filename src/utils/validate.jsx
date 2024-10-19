@@ -1,4 +1,4 @@
-export default function validatePassword(password) {
+function validatePassword(password) {
   if (!password) {
     return res.status(400).json({ error: "Password is required" });
   }
@@ -34,4 +34,46 @@ export default function validatePassword(password) {
   }
 
   return false;
+}
+
+function validateEmail(email) {
+  if (!email) {
+    return {
+      error: true,
+      message: "Email is required",
+    };
+  }
+  // Regular expression for email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return {
+      error: true,
+      message: "Invalid email format",
+    };
+  }
+}
+
+function validateUsername(username) {
+  if (!username) {
+    return {
+      error: true,
+      message: "Username is required",
+    };
+  }
+  const usernameRegex = /^[a-zA-Z0-9]+$/;
+
+  if (!usernameRegex.test(username)) {
+    return {
+      error: true,
+      message:
+        "Username can only contain letters and numbers with no spaces or special characters",
+    };
+  }
+  return false;
+}
+
+
+export {
+  validateEmail, validatePassword, validateUsername
 }

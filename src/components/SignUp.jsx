@@ -16,13 +16,12 @@ import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import getSignUpTheme from "../../theme/getSignUpTheme";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../../CustomIcons";
 import TemplateFrame from "../../TemplateFrame";
-import validatePassword from "../utils/validate";
-import { createNewUser } from "../API/API";
+import { validateEmail, validatePassword, validateUsername} from "../utils/validate"
+import { createNewUser } from "../API/API"
 import { useNavigate } from "react-router-dom";
 import QRCodeComponent from "./QRCodeComponent";
 import { enable2FactorAuth } from "../API/API";
 import { verify2FactorAuth } from "../API/API";
-
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -72,7 +71,6 @@ export default function SignUp() {
   const [userRegistered, setUserRegistered] = React.useState(false);
   const [totp, setTotp] = React.useState("");
 
-
   const validateInputs = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -80,28 +78,33 @@ export default function SignUp() {
 
     let isValid = true;
 
+    let isEmailValid = validateEmail(email)
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
       setEmailErrorMessage("Please enter a valid email address.");
       isValid = false;
-    } else {
+    } else if (isEmailValid.error == true) {
       setEmailError(false);
-      setEmailErrorMessage("Not a valid email");
+      setEmailErrorMessage(`${isEmailValid.message}`);
     }
 
     let isPasswordValid = validatePassword(password);
-    if (isPasswordValid === true) {
-      passwordError(true);
-      setPasswordErrorMessage(isPasswordValid.message);
+    if (!password.value || password.value.length < 1) {
+      setPasswordError(true);
+      setPasswordErrorMessage("A username is required.");
+    }else if (isPasswordValid.error == true) {
+      setPasswordError(true);
+      setPasswordErrorMessage(`${isPasswordValid.message}`);
     }
 
+   let  isUserNameValid = validateUsername(username)
     if (!username.value || username.value.length < 1) {
       setUsernameError(true);
       setUsernameMessage("A username is required.");
       isValid = false;
-    } else {
+    } else if (isUserNameValid.error == true) {
       setUsernameError(false);
-      setUsernameMessage("Username already registered");
+      setUsernameMessage(isUserNameValid.message);
     }
 
     return isValid;
@@ -119,7 +122,7 @@ export default function SignUp() {
     };
 
     const resultUser = await createNewUser(userData);
-    setEmail(userData.email)
+    setEmail(userData.email);
     console.log(resultUser);
     setUserRegistered(true);
 
@@ -139,7 +142,6 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-
       const isValid = await verify2FactorAuth(totp, email);
 
       if (isValid) {
