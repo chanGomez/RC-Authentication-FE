@@ -19,7 +19,8 @@ import TemplateFrame from "../../TemplateFrame";
 import validatePassword from "../utils/validate"
 import { createNewUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import QRCodeComponent from "./QRCodeComponent";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -113,13 +114,19 @@ export default function SignUp() {
             email: data.get("email"),
             password: data.get("password"),
           };
-
+          console.log("line 116");
+          
           const res = await createNewUser(userData);
+          console.log("line 116", res);
+
           setQrCode(res.data.qrCode);
           setManualKey(res.data.manualKey); // Set manual key for fallback
-          alert("Please scan the QR code with your authenticator app.");
+          // alert("Please scan the QR code with your authenticator app.");
 
-          navigate(`/movies`);
+          //should the user be promoted to login or straight in?
+          navigate(`/verify`);
+
+
         } catch (error) {
           console.error("Registration failed:", error);
           alert("Error during registration.");
@@ -136,83 +143,91 @@ export default function SignUp() {
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            Sign up
+                       {qrCode ? ("Enable Second Auth") : ("Sign Up")}
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="username">Username</FormLabel>
-              <TextField
-                autoComplete="username"
-                name="username"
-                required
-                fullWidth
-                id="username"
-                placeholder="JamesBond"
-                error={usernameError}
-                helperText={usernameErrorMessage}
-                color={usernameError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                placeholder="your@email.com"
-                name="email"
-                autoComplete="email"
-                variant="outlined"
-                error={emailError}
-                helperText={emailErrorMessage}
-                color={emailError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                variant="outlined"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            {/* <FormControlLabel
+          {qrCode ? (
+            <div>
+              <h3>Scan this QR code with your authenticator app:</h3>
+              <QRCodeComponent value={qrCode} />
+              <p>Manual Key: {manualKey}</p>
+            </div>
+          ) : (
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+            >
+              <FormControl>
+                <FormLabel htmlFor="username">Username</FormLabel>
+                <TextField
+                  autoComplete="username"
+                  name="username"
+                  required
+                  fullWidth
+                  id="username"
+                  placeholder="JamesBond"
+                  error={usernameError}
+                  helperText={usernameErrorMessage}
+                  color={usernameError ? "error" : "primary"}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  placeholder="your@email.com"
+                  name="email"
+                  autoComplete="email"
+                  variant="outlined"
+                  error={emailError}
+                  helperText={emailErrorMessage}
+                  color={emailError ? "error" : "primary"}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  placeholder="••••••"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  variant="outlined"
+                  error={passwordError}
+                  helperText={passwordErrorMessage}
+                  color={passwordError ? "error" : "primary"}
+                />
+              </FormControl>
+              {/* <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive updates via email."
               /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Sign up
-            </Button>
-            <Typography sx={{ textAlign: "center" }}>
-              Already have an account?{" "}
-              <span>
-                <Link
-                  href="/sign-in"
-                  variant="body2"
-                  sx={{ alignSelf: "center" }}
-                >
-                  Sign in
-                </Link>
-              </span>
-            </Typography>
-          </Box>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                onClick={validateInputs}
+              >
+                Sign up
+              </Button>
+              <Typography sx={{ textAlign: "center" }}>
+                Already have an account?{" "}
+                <span>
+                  <Link
+                    href="/sign-in"
+                    variant="body2"
+                    sx={{ alignSelf: "center" }}
+                  >
+                    Sign in
+                  </Link>
+                </span>
+              </Typography>
+            </Box>
+          )}
         </Card>
       </SignUpContainer>
     </>
