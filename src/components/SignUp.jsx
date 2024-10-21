@@ -53,7 +53,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 export default function SignUp() {
   const navigate = useNavigate();
   const [usernameError, setUsernameError] = React.useState(false);
-  const [usernameErrorMessage, setUsernameMessage] = React.useState("");
+  const [usernameErrorMessage, setUsernameErrorMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -66,48 +66,57 @@ export default function SignUp() {
   const [email, setEmail] = React.useState("");
   const [totpToken, setTotpToken] = React.useState("");
 
-  // const validateInputs = () => {
-  //   const email = document.getElementById("email");
-  //   const password = document.getElementById("password");
-  //   const username = document.getElementById("username");
-
-  //   let isValid = true;
-
-  //   let isEmailValid = validateEmail(email)
-  //   if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-  //     setEmailError(true);
-  //     setEmailErrorMessage("Please enter a valid email address.");
-  //     isValid = false;
-  //   } else if (isEmailValid.error == true) {
-  //     setEmailError(false);
-  //     setEmailErrorMessage(`${isEmailValid.message}`);
-  //   }
-
-  //   let isPasswordValid = validatePassword(password);
-  //   if (!password.value || password.value.length < 1) {
-  //     setPasswordError(true);
-  //     setPasswordErrorMessage("A username is required.");
-  //   }else if (isPasswordValid.error == true) {
-  //     setPasswordError(true);
-  //     setPasswordErrorMessage(`${isPasswordValid.message}`);
-  //   }
-
-  //  let  isUserNameValid = validateUsername(username)
-  //   if (!username.value || username.value.length < 1) {
-  //     setUsernameError(true);
-  //     setUsernameMessage("A username is required.");
-  //     isValid = false;
-  //   } else if (isUserNameValid.error == true) {
-  //     setUsernameError(false);
-  //     setUsernameMessage(isUserNameValid.message);
-  //   }
-
-  //   return isValid;
-  // };
+  const validateInputs = () => {
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const username = document.getElementById("username");
+    let isValid = true;
+    if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      setEmailError(true);
+      setEmailErrorMessage("Please enter a valid email address.");
+      isValid = false;
+    } else {
+      setEmailError(false);
+      setEmailErrorMessage("");
+    }
+    if (!password.value || password.value.length < 9) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password must be at least 8 characters long.");
+      isValid = false;
+    } else if (!/[A-Z]/.test(password.value)) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password must contain at least one uppercase letter");
+      isValid = false;
+    } else if(!/[!@#$%^&*(),.?":{}|<>]/.test(password.value)){
+      setPasswordError(true);
+      setPasswordErrorMessage("Password must contain at least one special character");
+    }else{
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    }
+    if (!username.value || username.value.length < 5) {
+      setUsernameError(true);
+      setUsernameErrorMessage("Name must be at least 6 chars long.");
+      isValid = false;
+    } else  if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
+      setUsernameError(true);
+      setUsernameErrorMessage(
+        "Username can only contain letters and numbers with no spaces or special characters"
+      );
+      isValid = false;
+    }else{
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+    }
+    return isValid;
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (usernameError || emailError || passwordError) return;
+    if (usernameError || emailError || passwordError) {
+      event.preventDefault();
+      return;
+    }
 
     const data = new FormData(event.currentTarget);
     let userData = {
@@ -249,7 +258,7 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                // onClick={validateInputs}
+                onClick={validateInputs}
               >
                 Sign up
               </Button>

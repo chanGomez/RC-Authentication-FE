@@ -54,7 +54,7 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/movies" element={<Movies />} />
+            <Route path="/get-movies" element={<Movies />} />
           </Routes>
         </Router>
       </ThemeProvider>

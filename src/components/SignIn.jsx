@@ -99,7 +99,7 @@ export default function SignIn() {
         setIs2FAEnabled(true);
         alert("Verify with 2 factor authentication.")
       } else {
-        alert("Error: User was not signed in.");
+        alert(`${signedInResult.response.data.message}`);
       }
     } catch (error) {
       console.error("Registration failed:", error);
