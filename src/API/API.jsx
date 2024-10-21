@@ -28,8 +28,9 @@ async function signInUser(data) {
 }
 
 async function enable2FactorAuth(data) {
+  console.log("api:", data)
   try {
-    let result = await axios.post("/auth/enable2fa", data);
+    let result = await axios.post("/auth/enable", data);
     return result;
   } catch (error) {
     return error;

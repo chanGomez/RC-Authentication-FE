@@ -52,7 +52,6 @@ function App() {
             <Route path="/" element={<p>HOME</p>} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
-            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             <Route path="/movies" element={<Movies />} />
           </Routes>
         </Router>

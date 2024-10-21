@@ -62,7 +62,7 @@ export default function SignUp() {
   const [usernameError, setUsernameError] = React.useState(false);
   const [usernameErrorMessage, setUsernameMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
-  const [email, setEmail] = React.useState(false);
+  const [email, setEmail] = React.useState("");
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
@@ -71,44 +71,44 @@ export default function SignUp() {
   const [userRegistered, setUserRegistered] = React.useState(false);
   const [totp, setTotp] = React.useState("");
 
-  const validateInputs = () => {
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    const username = document.getElementById("username");
+  // const validateInputs = () => {
+  //   const email = document.getElementById("email");
+  //   const password = document.getElementById("password");
+  //   const username = document.getElementById("username");
 
-    let isValid = true;
+  //   let isValid = true;
 
-    let isEmailValid = validateEmail(email)
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else if (isEmailValid.error == true) {
-      setEmailError(false);
-      setEmailErrorMessage(`${isEmailValid.message}`);
-    }
+  //   let isEmailValid = validateEmail(email)
+  //   if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+  //     setEmailError(true);
+  //     setEmailErrorMessage("Please enter a valid email address.");
+  //     isValid = false;
+  //   } else if (isEmailValid.error == true) {
+  //     setEmailError(false);
+  //     setEmailErrorMessage(`${isEmailValid.message}`);
+  //   }
 
-    let isPasswordValid = validatePassword(password);
-    if (!password.value || password.value.length < 1) {
-      setPasswordError(true);
-      setPasswordErrorMessage("A username is required.");
-    }else if (isPasswordValid.error == true) {
-      setPasswordError(true);
-      setPasswordErrorMessage(`${isPasswordValid.message}`);
-    }
+  //   let isPasswordValid = validatePassword(password);
+  //   if (!password.value || password.value.length < 1) {
+  //     setPasswordError(true);
+  //     setPasswordErrorMessage("A username is required.");
+  //   }else if (isPasswordValid.error == true) {
+  //     setPasswordError(true);
+  //     setPasswordErrorMessage(`${isPasswordValid.message}`);
+  //   }
 
-   let  isUserNameValid = validateUsername(username)
-    if (!username.value || username.value.length < 1) {
-      setUsernameError(true);
-      setUsernameMessage("A username is required.");
-      isValid = false;
-    } else if (isUserNameValid.error == true) {
-      setUsernameError(false);
-      setUsernameMessage(isUserNameValid.message);
-    }
+  //  let  isUserNameValid = validateUsername(username)
+  //   if (!username.value || username.value.length < 1) {
+  //     setUsernameError(true);
+  //     setUsernameMessage("A username is required.");
+  //     isValid = false;
+  //   } else if (isUserNameValid.error == true) {
+  //     setUsernameError(false);
+  //     setUsernameMessage(isUserNameValid.message);
+  //   }
 
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -122,11 +122,21 @@ export default function SignUp() {
     };
 
     const resultUser = await createNewUser(userData);
-    setEmail(userData.email);
+    setEmail(resultUser.email);
     console.log(resultUser);
-    setUserRegistered(true);
+    if (resultUser){
+      setUserRegistered(true);
+    } else{
+      alert("account not made");
+    }
 
-    const resultQRcode = await enable2FactorAuth(userData.email);
+    let emailFromForm = data.get("email");
+      console.log(emailFromForm); 
+
+      const emailData = { email: emailFromForm };
+
+    const resultQRcode = await enable2FactorAuth(emailData);
+      console.log(resultQRcode); 
 
     if (resultQRcode) {
       console.log(resultQRcode); // Check what is being returned
@@ -137,6 +147,7 @@ export default function SignUp() {
       alert("WTFFFFFFFF");
     }
   }
+
 
   async function handleVerifyTotp(event) {
     event.preventDefault();
@@ -245,7 +256,7 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                onClick={validateInputs}
+                // onClick={validateInputs}
               >
                 Sign up
               </Button>
