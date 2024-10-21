@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Divider from "@mui/material/Divider";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
@@ -12,12 +11,9 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import ForgotPassword from "./ForgotPassword";
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../..//CustomIcons";
-// import AppTheme from "../../shared-theme/AppTheme"
 import ColorModeSelect from "../../shared-theme/ColorModeSelect";
-import TemplateFrame from "../../TemplateFrame";
 import { signInUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import { verify2FactorAuth } from "../API/API";
@@ -231,10 +227,10 @@ export default function SignIn() {
               />
               <ForgotPassword open={open} handleClose={handleClose} />
               <Button
-                type="submit"
+                // type="submit"
                 fullWidth
                 variant="contained"
-                onClick={validateInputs}
+                // onClick={validateInputs}
               >
                 Sign in
               </Button>
