@@ -71,6 +71,7 @@ export default function SignIn() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+
   const [is2FAEnabled, setIs2FAEnabled] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState(null);
   const [totp_token, settotp_token] = React.useState("");
@@ -93,16 +94,16 @@ export default function SignIn() {
         email: data.get("email"),
         password: data.get("password"),
       };
-      console.log(userData);
-      const res = await signInUser(userData);
-      console.log("result: ", res);
+
+      const signedInResult = await signInUser(userData);
+      console.log("result: ", signedInResult);
+
       setUserInfo(userData);
-      if (
-        res.data.message == "Successfully logged in with email and password"
-      ) {
+      if (signedInResult.status == 200) {
         setIs2FAEnabled(true);
+        alert("Verify with 2 factor authentication.")
       } else {
-        alert("error during login");
+        alert("Error: User was not signed in.");
       }
     } catch (error) {
       console.error("Registration failed:", error);
@@ -119,13 +120,14 @@ export default function SignIn() {
       });
       console.log("line 116", response);
 
-      if (response.data.message == "sign in successful ") {
+      if (response.status == 200) {
+        alert("2 fact authentication successful.")
         navigate("/movies");
       } else {
         alert("Invalid TOTP code. Please try again.");
       }
     } catch (error) {
-      alert("TOTP verification failed. Please try again.");
+      alert("Errror: Error during 2 factor authentication at sign in.");
     }
   }
 
