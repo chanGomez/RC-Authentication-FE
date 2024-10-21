@@ -8,6 +8,14 @@ async function spinUpServer() {
   }
 }
 
+async function findUserByEmail(email) {
+  try {
+    await axios.get("/auth/find-email", email);
+  } catch (error) {
+    return error;
+  }
+}
+
 async function createNewUser(data) {
   console.log(data)
   try {
@@ -75,6 +83,7 @@ async function getMovies() {
 }
 
 export {
+  findUserByEmail,
   spinUpServer,
   enable2FactorAuth,
   createNewUser,

@@ -16,7 +16,7 @@ import ForgotPassword from "./ForgotPassword";
 import ColorModeSelect from "../../shared-theme/ColorModeSelect";
 import { signInUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
-import { verify2FactorAuth } from "../API/API";
+import { verify2FactorAuth, findUserByEmail } from "../API/API";
 import { validateEmail, validatePassword } from "../utils/validate";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -93,14 +93,15 @@ export default function SignIn() {
 
       const signedInResult = await signInUser(userData);
       console.log("result: ", signedInResult);
-
       setUserInfo(userData);
+      
       if (signedInResult.status == 200) {
         setIs2FAEnabled(true);
-        alert("Verify with 2 factor authentication.")
+        alert("Verify with 2 factor authentication.");
       } else {
         alert(`${signedInResult.response.data.message}`);
       }
+
     } catch (error) {
       console.error("Registration failed:", error);
       alert("Error during registration.");
@@ -117,7 +118,7 @@ export default function SignIn() {
       console.log("line 116", response);
 
       if (response.status == 200) {
-        alert("2 fact authentication successful.")
+        alert("2 fact authentication successful.");
         navigate("/movies");
       } else {
         alert("Invalid TOTP code. Please try again.");
