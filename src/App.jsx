@@ -8,6 +8,7 @@ import TemplateFrame from "../TemplateFrame";
 import getSignUpTheme from "../theme/getSignUpTheme";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import Movies from "./components/Movies"
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
     const [mode, setMode] = React.useState("light");
@@ -52,6 +53,7 @@ function App() {
             <Route path="/" element={<p>HOME</p>} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/movies" element={<Movies />} />
           </Routes>
         </Router>

@@ -31,25 +31,6 @@ function ForgotPassword({ open, handleClose }) {
       open={open}
       onClose={handleClose}
       PaperProps={{
-        // component: "form",
-        // onSubmit: (event) => {
-        //   event.preventDefault();
-          // const data = new FormData(event.currentTarget);
-          // let userEmail = {
-          //   email: data.get("email"),
-          // };
-
-          // console.log({ email: userEmail.email });
-          // const result = forgotPassword({ email: userEmail.email });
-
-          // if (result.status == 200) {
-          //   alert("email sent");
-          // } else {
-          //   alert("Error: email was not sent");
-          // }
-        //   handleClose();
-        // },
-        // handleClose()
       }}
     >
       <DialogTitle>Reset password</DialogTitle>
@@ -73,20 +54,6 @@ function ForgotPassword({ open, handleClose }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {/* <div>
-          <h3>Scan this QR code with your authenticator app:</h3>
-          <QRCodeComponent qrCode={qrCode} />
-          <p>manualKey: {manualKey}</p>
-          <input
-            type="text"
-            id="totpToken"
-            name="totpToken"
-            value={totpToken}
-            onChange={(e) => setTotpToken(e.target.value)}
-            placeholder="Enter TOTP"
-          />
-          <button onClick={handleVerifyTotp}>Verify TOTP</button>
-        </div> */}
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
         <Button onClick={handleClose}>Cancel</Button>

@@ -70,7 +70,7 @@ export default function SignIn() {
 
   const [is2FAEnabled, setIs2FAEnabled] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState(null);
-  const [totp_token, settotp_token] = React.useState("");
+  const [totp_token, setTotp_token] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -221,16 +221,12 @@ export default function SignIn() {
                   color={passwordError ? "error" : "primary"}
                 />
               </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <ForgotPassword open={open} handleClose={handleClose} />
               <Button
-                // type="submit"
+                type="submit"
                 fullWidth
                 variant="contained"
-                // onClick={validateInputs}
+                onClick={validateInputs}
               >
                 Sign in
               </Button>
@@ -256,7 +252,7 @@ export default function SignIn() {
                   <input
                     type="text"
                     value={totp_token}
-                    onChange={(e) => settotp_token(e.target.value)}
+                    onChange={(e) => setTotp_token(e.target.value)}
                     required
                   />
                 </div>
