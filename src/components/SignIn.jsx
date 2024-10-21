@@ -97,7 +97,11 @@ export default function SignIn() {
       const res = await signInUser(userData);
       console.log("result: ", res);
       setUserInfo(userData);
-      setIs2FAEnabled(true)
+      if (res.data.message == "Successfully logged in with email and password"){
+        setIs2FAEnabled(true);
+      }else{
+        alert("error during login")
+      }
     } catch (error) {
       console.error("Registration failed:", error);
       alert("Error during registration.");

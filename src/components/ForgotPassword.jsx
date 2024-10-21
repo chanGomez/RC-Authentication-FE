@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
 function ForgotPassword({ open, handleClose }) {
+  
   return (
     <Dialog
       open={open}
@@ -50,10 +51,5 @@ function ForgotPassword({ open, handleClose }) {
     </Dialog>
   );
 }
-
-// ForgotPassword.propTypes = {
-//   handleClose: PropTypes.func.isRequired,
-//   open: PropTypes.bool.isRequired,
-// };
 
 export default ForgotPassword;

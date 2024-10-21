@@ -122,7 +122,7 @@ export default function SignUp() {
     };
 
     const resultUser = await createNewUser(userData);
-    setEmail(resultUser.email);
+    setEmail(userData.email);
     console.log(resultUser);
     if (resultUser){
       setUserRegistered(true);
@@ -144,7 +144,6 @@ export default function SignUp() {
       setManualKey(resultQRcode.data.manualKey);
     } else {
       console.log(resultQRcode); // Check what is being returned
-      alert("WTFFFFFFFF");
     }
   }
 
@@ -153,7 +152,8 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const isValid = await verify2FactorAuth(totp, email);
+      let data = { totp, email };
+      const isValid = await verify2FactorAuth(data);
 
       if (isValid) {
         alert("Logged in after 2fa");
