@@ -49,7 +49,7 @@ async function verify2FactorAuth(data) {
 
 async function forgotPassword(data) {
   try {
-    let result = await axios.post("/forgot-password", data);
+    let result = await axios.post("/reset/forgot-password", data);
     return result;
   } catch (error) {
     return error;
@@ -58,7 +58,7 @@ async function forgotPassword(data) {
 
 async function resetPassword(data) {
   try {
-    let result = await axios.post("/reset-password", data);
+    let result = await axios.post("/reset/reset-password", data);
     return result;
   } catch (error) {
     return error;

@@ -1,10 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
@@ -12,12 +9,8 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
-import getSignUpTheme from "../../theme/getSignUpTheme";
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../../CustomIcons";
-import TemplateFrame from "../../TemplateFrame";
-import { validateEmail, validatePassword, validateUsername} from "../utils/validate"
-import { createNewUser } from "../API/API"
+import { styled } from "@mui/material/styles";
+import { createNewUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import QRCodeComponent from "./QRCodeComponent";
 import { enable2FactorAuth } from "../API/API";
@@ -62,14 +55,16 @@ export default function SignUp() {
   const [usernameError, setUsernameError] = React.useState(false);
   const [usernameErrorMessage, setUsernameMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
-  const [email, setEmail] = React.useState("");
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+
   const [qrCode, setQrCode] = React.useState(null); // For displaying the QR code
   const [manualKey, setManualKey] = React.useState(""); // Manual key fallback
-  const [userRegistered, setUserRegistered] = React.useState(false);
-  const [totp, setTotp] = React.useState("");
+
+  const [credentialsTaken, setCredentialsTaken] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [totpToken, setTotpToken] = React.useState("");
 
   // const validateInputs = () => {
   //   const email = document.getElementById("email");
@@ -124,21 +119,19 @@ export default function SignUp() {
     const resultUser = await createNewUser(userData);
     setEmail(userData.email);
     console.log(resultUser);
-    if (resultUser){
-      setUserRegistered(true);
-    } else{
-      alert("account not made");
+
+    if (resultUser.status == 200) {
+      setCredentialsTaken(true);
+      alert("Enable 2 factor auth");
+    } else {
+      alert("Error: Credentials not taken.");
     }
 
-    let emailFromForm = data.get("email");
-      console.log(emailFromForm); 
+    console.log(data.get("email"));
+    const resultQRcode = await enable2FactorAuth({ email: data.get("email") });
 
-      const emailData = { email: emailFromForm };
-
-    const resultQRcode = await enable2FactorAuth(emailData);
-      console.log(resultQRcode); 
-
-    if (resultQRcode) {
+    console.log(resultQRcode);
+    if (resultQRcode.status == 200) {
       console.log(resultQRcode); // Check what is being returned
       setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
       setManualKey(resultQRcode.data.manualKey);
@@ -147,15 +140,15 @@ export default function SignUp() {
     }
   }
 
-
   async function handleVerifyTotp(event) {
     event.preventDefault();
+    console.log("line 45", totpToken, email);
+    
 
     try {
-      let data = { totp, email };
-      const isValid = await verify2FactorAuth(data);
+      const isValid = await verify2FactorAuth( totpToken, email );
 
-      if (isValid) {
+      if (isValid.status == 200) {
         alert("Logged in after 2fa");
         navigate(`/movies`);
       } else {
@@ -179,19 +172,19 @@ export default function SignUp() {
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            {userRegistered ? "Enable 2 Factor Authentication" : "Sign Up"}
+            {credentialsTaken ? "Enable 2 Factor Authentication" : "Sign Up"}
           </Typography>
-          {userRegistered ? (
+          {credentialsTaken ? (
             <div>
               <h3>Scan this QR code with your authenticator app:</h3>
               <QRCodeComponent qrCode={qrCode} />
               <p>manualKey: {manualKey}</p>
               <input
                 type="text"
-                id="totp"
-                name="totp"
-                value={totp}
-                onChange={(e) => setTotp(e.target.value)}
+                id="totpToken"
+                name="totpToken"
+                value={totpToken}
+                onChange={(e) => setTotpToken(e.target.value)}
                 placeholder="Enter TOTP"
               />
               <button onClick={handleVerifyTotp}>Verify TOTP</button>

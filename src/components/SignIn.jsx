@@ -20,8 +20,8 @@ import ColorModeSelect from "../../shared-theme/ColorModeSelect";
 import TemplateFrame from "../../TemplateFrame";
 import { signInUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
-import {verify2FactorAuth} from "../API/API"
-import {validateEmail, validatePassword} from "../utils/validate"
+import { verify2FactorAuth } from "../API/API";
+import { validateEmail, validatePassword } from "../utils/validate";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -73,7 +73,7 @@ export default function SignIn() {
   const [open, setOpen] = React.useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState(null);
-  const [totpToken, setTotpToken] = React.useState("");
+  const [totp_token, settotp_token] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -93,14 +93,16 @@ export default function SignIn() {
         email: data.get("email"),
         password: data.get("password"),
       };
-      console.log(userData)
+      console.log(userData);
       const res = await signInUser(userData);
       console.log("result: ", res);
       setUserInfo(userData);
-      if (res.data.message == "Successfully logged in with email and password"){
+      if (
+        res.data.message == "Successfully logged in with email and password"
+      ) {
         setIs2FAEnabled(true);
-      }else{
-        alert("error during login")
+      } else {
+        alert("error during login");
       }
     } catch (error) {
       console.error("Registration failed:", error);
@@ -111,10 +113,9 @@ export default function SignIn() {
   async function handle2FAVerification(e) {
     e.preventDefault();
     try {
-      
       const response = await verify2FactorAuth({
         email: userInfo.email,
-        totpToken: totpToken, 
+        totp_token: totp_token,
       });
       console.log("line 116", response);
 
@@ -134,18 +135,17 @@ export default function SignIn() {
 
     let isValid = true;
 
-    if (!email.value ) {
+    if (!email.value) {
       setEmailError(true);
       setEmailErrorMessage("Please enter a valid email address.");
       isValid = false;
-    } 
+    }
 
     if (!password.value || password.value.length < 1) {
       setPasswordError(true);
       setPasswordErrorMessage("A password is required.");
       isValid = false;
-    } 
-
+    }
 
     return isValid;
   };
@@ -257,14 +257,12 @@ export default function SignIn() {
                   <label>TOTP Code:</label>
                   <input
                     type="text"
-                    value={totpToken}
-                    onChange={(e) => setTotpToken(e.target.value)}
+                    value={totp_token}
+                    onChange={(e) => settotp_token(e.target.value)}
                     required
                   />
                 </div>
-                <button onClick={handle2FAVerification}>
-                  Verify
-                </button>
+                <button onClick={handle2FAVerification}>Verify</button>
                 {/* {errorMessage && <p>{errorMessage}</p>} */}
               </div>
             </>
