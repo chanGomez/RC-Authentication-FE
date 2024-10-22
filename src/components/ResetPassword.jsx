@@ -17,7 +17,7 @@ import ColorModeSelect from "../../shared-theme/ColorModeSelect";
 import { resetPassword } from "../API/API";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { verify2FactorAuth } from "../API/API";
-import { validateEmail, validatePassword } from "../utils/validate";
+import { validateEmail, validatePassword } from "../utils/validateInputs";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",

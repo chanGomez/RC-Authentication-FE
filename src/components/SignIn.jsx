@@ -17,7 +17,7 @@ import ColorModeSelect from "../../shared-theme/ColorModeSelect";
 import { signInUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import { verify2FactorAuth, findUserByEmail } from "../API/API";
-import { validateEmail, validatePassword } from "../utils/validate";
+import { validateEmail, validatePassword } from "../utils/validateInputs";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -94,7 +94,7 @@ export default function SignIn() {
       const signedInResult = await signInUser(userData);
       console.log("result: ", signedInResult);
       setUserInfo(userData);
-      
+
       if (signedInResult.status == 200) {
         setIs2FAEnabled(true);
         alert("Verify with 2 factor authentication.");
