@@ -1,4 +1,4 @@
-import { getDesignTokens } from "../themePrimitives";
+import { getDesignTokens } from "../mui_theme/themePrimitives";
 import {
   inputsCustomizations,
   dataDisplayCustomizations,

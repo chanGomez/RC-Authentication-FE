@@ -11,7 +11,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ToggleColorMode from "./ToggleColorMode";
-import getSignUpTheme from "./theme/getSignUpTheme";
+import getSignUpTheme from "../theme/getSignUpTheme";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: "relative",
@@ -50,6 +50,7 @@ function TemplateFrame({
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              flexDirection: "row-reverse",
               width: "100%",
               p: "8px 12px",
             }}

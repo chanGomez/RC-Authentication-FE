@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 // import ForgotPassword from "./components/ForgotPassword";
-import TemplateFrame from "../TemplateFrame";
+import TemplateFrame from "../mui_theme/TemplateFrame";
 import getSignUpTheme from "../theme/getSignUpTheme";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import Movies from "./components/Movies";

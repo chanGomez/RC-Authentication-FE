@@ -64,7 +64,7 @@ export default function SignUp() {
 
   const [credentialsTaken, setCredentialsTaken] = React.useState(false);
   const [email, setEmail] = React.useState("");
-  const [totpToken, setTotpToken] = React.useState("");
+  const [totp_token, setTotp_token] = React.useState("");
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -151,17 +151,17 @@ export default function SignUp() {
 
   async function handleVerifyTotp(event) {
     event.preventDefault();
-    console.log("line 45", totpToken, email);
+    console.log("line 45", totp_token, email);
     
 
     try {
-      const isValid = await verify2FactorAuth( totpToken, email );
+      const isValid = await verify2FactorAuth({ totp_token, email });
 
       if (isValid.status == 200) {
         alert("Logged in after 2fa");
-        navigate(`/movies`);
+        navigate(`/movies/get-movies`);
       } else {
-        alert("Logged 2fa failed");
+        alert(`Invalid token.`);
       }
 
       //should the user be promoted to login or straight in?
@@ -190,10 +190,10 @@ export default function SignUp() {
               <p>manualKey: {manualKey}</p>
               <input
                 type="text"
-                id="totpToken"
-                name="totpToken"
-                value={totpToken}
-                onChange={(e) => setTotpToken(e.target.value)}
+                id="totp_token"
+                name="totp_token"
+                value={totp_token}
+                onChange={(e) => setTotp_token(e.target.value)}
                 placeholder="Enter TOTP"
               />
               <button onClick={handleVerifyTotp}>Verify TOTP</button>
