@@ -1,8 +1,8 @@
-# Authentication App
+# 🔐 Authentication App
 
 A full-stack authentication project that includes robust security features like JWT authentication, Redis-based session management, and user login tracking. This project leverages ReactJS for the frontend and Node.js for the backend, with PostgreSQL or MongoDB for persistent data storage.
 
-## Table of Contents
+##  Table of Contents
 - [Features](#features)
 - [Security Features](#security-features)
 - [Technologies](#technologies)
@@ -10,7 +10,7 @@ A full-stack authentication project that includes robust security features like 
 - [Getting Started](#getting-started)
 - [Running the Application](#running-the-application)
 
-## Features
+## 🎯 Features
 - **JWT Authentication**: Secure user authentication with JSON Web Tokens.
 - **Session Management**: Session data stored in Redis for scalable performance.
 - **Password Reset Functionality**: Secure password reset with tokenized URLs.
@@ -22,7 +22,7 @@ A full-stack authentication project that includes robust security features like 
 - **PostgreSQL/MongoDB Storage**: Persistent user data storage options.
 
 
-## Security Features
+## 🚨 Security Features
 
 - **JWT Authentication**: Used for token-based authentication across the app.
 - **Redis Session Store**: Handles session management and tracking for efficient performance.
@@ -50,12 +50,12 @@ A full-stack authentication project that includes robust security features like 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/project-name.git
+   git clone https://github.com/chanGomez/RC-Authentication-FE
    ```
 
 2. Navigate into the project directory:
    ```bash
-   cd project-name
+   cd rc-authenticator-fe
    ```
 
 3. Install the dependencies:
@@ -67,17 +67,17 @@ A full-stack authentication project that includes robust security features like 
 
 1. Start the backend server:
    ```bash
-   npm run server
+   npm run dev
    ```
 
 2. Start the frontend:
    ```bash
-   npm run client
+   npm run dev
    ```
 
-3. Alternatively, you can run both the frontend and backend simultaneously with:
+3. Redis cloud required:
    ```bash
-   npm run dev
+   redis-server
    ```
 
 
