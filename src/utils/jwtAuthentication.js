@@ -16,7 +16,6 @@ function handleTokenExpiration() {
    const decodedToken = jwtDecode(token);
    const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
    const timeLeft = expirationTime - Date.now();
-
    if (timeLeft > 0) {
      setTimeout(() => {
        handleTokenExpiration(); // Call the expiration handler
