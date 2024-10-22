@@ -119,7 +119,7 @@ export default function SignIn() {
 
       if (response.status == 200) {
         alert("2 fact authentication successful.");
-        navigate("/movies");
+        navigate("/get-movies");
       } else {
         alert("Invalid TOTP code. Please try again.");
       }

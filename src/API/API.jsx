@@ -75,7 +75,7 @@ async function resetPassword(data) {
 
 async function getMovies() {
   try {
-    let result = await axios.get("/movies");
+    let result = await axios.get("/movies/get-movies");
     return result;
   } catch (error) {
     return error;
