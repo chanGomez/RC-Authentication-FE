@@ -1,6 +1,6 @@
 # 🔐 Authentication App
 
-A full-stack authentication project that includes robust security features like JWT authentication, Redis-based session management, and user login tracking. This project leverages ReactJS for the frontend and Node.js for the backend, with PostgreSQL or MongoDB for persistent data storage.
+A full-stack authentication project that includes robust security features like JWT authentication, Redis-based session management, and user login tracking. This project leverages ReactJS for the frontend and Node.js for the backend, with PostgreSQL for persistent data storage.
 
 ##  Table of Contents
 - [Features](#features)
