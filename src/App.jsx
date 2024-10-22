@@ -49,8 +49,8 @@ function App() {
       <ThemeProvider theme={showCustomTheme ? SignUpTheme : defaultTheme}>
         <Router>
           <Routes>
-            <Route path="/" element={<p>HOME</p>} />
-            <Route path="/sign-up" element={<SignUp />} />
+            {/* <Route path="/" element={<p>HOME</p>} /> */}
+            <Route path="/" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/get-movies" element={<Movies />}/>
