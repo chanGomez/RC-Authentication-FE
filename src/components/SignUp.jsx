@@ -266,12 +266,10 @@ export default function SignUp() {
                 Already have an account?{" "}
                 <span>
                   <Link
-                    href="/sign-in"
+                    onClick={()=>{navigate("/sign-in")}}
                     variant="body2"
                     sx={{ alignSelf: "center" }}
-                  >
-                    Sign in
-                  </Link>
+                    >Sign in</Link>
                 </span>
               </Typography>
             </Box>
