@@ -103,8 +103,8 @@ export default function SignIn() {
       }
 
     } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Error during registration.");
+      console.error("Sign in failed:", error);
+      alert("Error during sign in.");
     }
   }
 

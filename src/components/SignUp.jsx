@@ -61,6 +61,7 @@ export default function SignUp() {
 
   const [qrCode, setQrCode] = React.useState(null); // For displaying the QR code
   const [manualKey, setManualKey] = React.useState(""); // Manual key fallback
+  const [otpauthURL, setOtpauthURL] = React.useState(""); // Manual key fallback
 
   const [credentialsTaken, setCredentialsTaken] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -85,12 +86,16 @@ export default function SignUp() {
       isValid = false;
     } else if (!/[A-Z]/.test(password.value)) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must contain at least one uppercase letter");
+      setPasswordErrorMessage(
+        "Password must contain at least one uppercase letter"
+      );
       isValid = false;
-    } else if(!/[!@#$%^&*(),.?":{}|<>]/.test(password.value)){
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password.value)) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must contain at least one special character");
-    }else{
+      setPasswordErrorMessage(
+        "Password must contain at least one special character"
+      );
+    } else {
       setPasswordError(false);
       setPasswordErrorMessage("");
     }
@@ -98,13 +103,13 @@ export default function SignUp() {
       setUsernameError(true);
       setUsernameErrorMessage("Name must be at least 6 chars long.");
       isValid = false;
-    } else  if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
+    } else if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
       setUsernameError(true);
       setUsernameErrorMessage(
         "Username can only contain letters and numbers with no spaces or special characters"
       );
       isValid = false;
-    }else{
+    } else {
       setUsernameError(false);
       setUsernameErrorMessage("");
     }
@@ -142,8 +147,8 @@ export default function SignUp() {
     console.log(resultQRcode);
     if (resultQRcode.status == 200) {
       console.log(resultQRcode); // Check what is being returned
-      setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
       setManualKey(resultQRcode.data.manualKey);
+      setOtpauthURL(resultQRcode.data.otpauthURL);
     } else {
       console.log(resultQRcode); // Check what is being returned
     }
@@ -152,14 +157,13 @@ export default function SignUp() {
   async function handleVerifyTotp(event) {
     event.preventDefault();
     console.log("line 45", totp_token, email);
-    
 
     try {
       const isValid = await verify2FactorAuth({ totp_token, email });
 
       if (isValid.status == 200) {
         alert("Logged in after 2fa");
-        navigate(`/movies/get-movies`);
+        navigate(`/get-movies`);
       } else {
         alert(`Invalid token.`);
       }
@@ -186,7 +190,7 @@ export default function SignUp() {
           {credentialsTaken ? (
             <div>
               <h3>Scan this QR code with your authenticator app:</h3>
-              <QRCodeComponent qrCode={qrCode} />
+              <QRCodeComponent otpauthURL={otpauthURL}/>
               <p>manualKey: {manualKey}</p>
               <input
                 type="text"
@@ -266,10 +270,14 @@ export default function SignUp() {
                 Already have an account?{" "}
                 <span>
                   <Link
-                    onClick={()=>{navigate("/sign-in")}}
+                    onClick={() => {
+                      navigate("/sign-in");
+                    }}
                     variant="body2"
                     sx={{ alignSelf: "center" }}
-                    >Sign in</Link>
+                  >
+                    Sign in
+                  </Link>
                 </span>
               </Typography>
             </Box>
