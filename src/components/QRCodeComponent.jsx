@@ -1,8 +1,7 @@
 import React from "react";
-import { QRCodeSVG } from "qrcode.react";
 
-const QRCodeComponent = ({ otpauthURL }) => {
-  return <QRCodeSVG value={otpauthURL}/>;
+const QRCodeComponent = ({ qrCode, otpauthURL }) => {
+  return <img src={qrCode} alt="QR Code" />
 };
 
 export default QRCodeComponent;

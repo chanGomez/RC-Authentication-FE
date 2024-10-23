@@ -59,7 +59,7 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
 
-  const [qrCode, setQrCode] = React.useState(null); // For displaying the QR code
+  const [qrCode, setQrCode] = React.useState(""); // For displaying the QR code
   const [manualKey, setManualKey] = React.useState(""); // Manual key fallback
   const [otpauthURL, setOtpauthURL] = React.useState(""); // Manual key fallback
 
@@ -144,9 +144,10 @@ export default function SignUp() {
     console.log(data.get("email"));
     const resultQRcode = await enable2FactorAuth({ email: data.get("email") });
 
-    console.log(resultQRcode);
-    if (resultQRcode.status == 200) {
+    console.log(resultQRcode.qrCode);
+    if (resultQRcode.status == 201) {
       console.log(resultQRcode); // Check what is being returned
+      setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
       setManualKey(resultQRcode.data.manualKey);
       setOtpauthURL(resultQRcode.data.otpauthURL);
     } else {
@@ -190,7 +191,7 @@ export default function SignUp() {
           {credentialsTaken ? (
             <div>
               <h3>Scan this QR code with your authenticator app:</h3>
-              <QRCodeComponent otpauthURL={otpauthURL}/>
+              <QRCodeComponent qrCode={qrCode} otpauthURL={otpauthURL} />
               <p>manualKey: {manualKey}</p>
               <input
                 type="text"
