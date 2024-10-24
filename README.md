@@ -67,6 +67,11 @@ A full-stack authentication project that includes robust security features like 
 
 ## Running the Application
 
+clone the backend 
+```
+https://github.com/chanGomez/RC-Authentication-BE.git
+```
+
 1. Start the backend server:
    ```bash
    npm run dev
