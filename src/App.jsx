@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
-// import ForgotPassword from "./components/ForgotPassword";
 import TemplateFrame from "../mui_theme/TemplateFrame";
 import getSignUpTheme from "../theme/getSignUpTheme";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
 import Movies from "./components/Movies";
 import ResetPassword from "./components/ResetPassword";
+
 
 function App() {
   const [mode, setMode] = React.useState("light");
@@ -49,7 +49,6 @@ function App() {
       <ThemeProvider theme={showCustomTheme ? SignUpTheme : defaultTheme}>
         <Router>
           <Routes>
-            {/* <Route path="/" element={<p>HOME</p>} /> */}
             <Route path="/" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />

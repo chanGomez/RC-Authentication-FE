@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import QRCodeComponent from "./QRCodeComponent";
 import { enable2FactorAuth } from "../API/API";
 import { verify2FactorAuth } from "../API/API";
+import Spinner from "./Spinner/Spinner";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -52,6 +53,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState();
   const [usernameError, setUsernameError] = React.useState(false);
   const [usernameErrorMessage, setUsernameErrorMessage] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
@@ -130,26 +132,29 @@ export default function SignUp() {
       password: data.get("password"),
     };
 
+    setIsLoading(true);
     const resultUser = await createNewUser(userData);
     setEmail(userData.email);
     console.log(resultUser);
 
     if (resultUser.status == 200) {
       setCredentialsTaken(true);
-      alert("Enable 2 factor auth");
+      // alert("Enable 2 factor auth");
     } else {
+      setIsLoading(false);
       alert("Error: Credentials not taken.");
     }
 
     console.log(data.get("email"));
     const resultQRcode = await enable2FactorAuth({ email: data.get("email") });
-
     console.log(resultQRcode.qrCode);
+
     if (resultQRcode.status == 201) {
       console.log(resultQRcode); // Check what is being returned
       setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
       setManualKey(resultQRcode.data.manualKey);
       setOtpauthURL(resultQRcode.data.otpauthURL);
+      setIsLoading(false);
     } else {
       console.log(resultQRcode); // Check what is being returned
     }
@@ -160,10 +165,12 @@ export default function SignUp() {
     console.log("line 45", totp_token, email);
 
     try {
+      setIsLoading(true);
       const isValid = await verify2FactorAuth({ totp_token, email });
 
       if (isValid.status == 200) {
-        alert("Logged in after 2fa");
+        setIsLoading(false);
+        // alert("Logged in after 2fa");
         navigate(`/get-movies`);
       } else {
         alert(`Invalid token.`);
@@ -175,6 +182,11 @@ export default function SignUp() {
       alert("Error during Login.");
     }
   }
+
+  // user submits info set loading to true
+  //if the qrcode comes in set loading to false
+  //user submits token set loading to true
+  //user token comes back valid set loading to false
 
   return (
     <>
@@ -188,11 +200,14 @@ export default function SignUp() {
           >
             {credentialsTaken ? "Enable 2 Factor Authentication" : "Sign Up"}
           </Typography>
-          {credentialsTaken ? (
+
+          {isLoading ? (
+            <Spinner/>
+          ) : credentialsTaken && !isLoading ? (
             <div>
               <h3>Scan this QR code with your authenticator app:</h3>
               <QRCodeComponent qrCode={qrCode} otpauthURL={otpauthURL} />
-              <p>manualKey: {manualKey}</p>
+              <p>Manual Key: {manualKey}</p>
               <input
                 type="text"
                 id="totp_token"
@@ -204,7 +219,6 @@ export default function SignUp() {
               <button onClick={handleVerifyTotp}>Verify TOTP</button>
             </div>
           ) : (
-            // Sign Up form JSX
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -255,10 +269,6 @@ export default function SignUp() {
                   color={passwordError ? "error" : "primary"}
                 />
               </FormControl>
-              {/* <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
-              /> */}
               <Button
                 type="submit"
                 fullWidth
