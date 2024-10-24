@@ -198,25 +198,28 @@ export default function SignUp() {
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            {credentialsTaken ? "Enable 2 Factor Authentication" : "Sign Up"}
+            {credentialsTaken ? "Enable 2 Factor Auth" : "Sign Up"}
           </Typography>
-
           {isLoading ? (
-            <Spinner/>
+            <Spinner />
           ) : credentialsTaken && !isLoading ? (
             <div>
-              <h3>Scan this QR code with your authenticator app:</h3>
+              <Typography sx={{ textAlign: "center", color: "blue" }}>
+                Scan this QR code with your authenticator app. Ex, Google
+                Authenticator, Authy, ID.me
+              </Typography>
               <QRCodeComponent qrCode={qrCode} otpauthURL={otpauthURL} />
-              <p>Manual Key: {manualKey}</p>
-              <input
-                type="text"
-                id="totp_token"
-                name="totp_token"
-                value={totp_token}
-                onChange={(e) => setTotp_token(e.target.value)}
-                placeholder="Enter TOTP"
-              />
-              <button onClick={handleVerifyTotp}>Verify TOTP</button>
+              <div style={{ display: "flex", alignItems: "center"  }}>
+                <input
+                  type="text"
+                  id="totp_token"
+                  name="totp_token"
+                  value={totp_token}
+                  onChange={(e) => setTotp_token(e.target.value)}
+                  placeholder="Enter Token"
+                />
+                <button onClick={handleVerifyTotp}>Verify</button>
+              </div>
             </div>
           ) : (
             <Box
@@ -269,6 +272,9 @@ export default function SignUp() {
                   color={passwordError ? "error" : "primary"}
                 />
               </FormControl>
+              <Typography sx={{ textAlign: "center", color: "blue" }}>
+                Authenticator App Required for 2 factor authentication.
+              </Typography>
               <Button
                 type="submit"
                 fullWidth
