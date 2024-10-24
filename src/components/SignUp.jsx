@@ -209,7 +209,7 @@ export default function SignUp() {
                 Authenticator, Authy, ID.me
               </Typography>
               <QRCodeComponent qrCode={qrCode} otpauthURL={otpauthURL} />
-              <div style={{ display: "flex", alignItems: "center"  }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <input
                   type="text"
                   id="totp_token"
@@ -217,6 +217,7 @@ export default function SignUp() {
                   value={totp_token}
                   onChange={(e) => setTotp_token(e.target.value)}
                   placeholder="Enter Token"
+                  data-cy="qrcode"
                 />
                 <button onClick={handleVerifyTotp}>Verify</button>
               </div>
@@ -230,6 +231,7 @@ export default function SignUp() {
               <FormControl>
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <TextField
+                  data-cy="username-input"
                   autoComplete="username"
                   name="username"
                   required
@@ -244,6 +246,7 @@ export default function SignUp() {
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <TextField
+                  data-cy="email"
                   required
                   fullWidth
                   id="email"
@@ -259,6 +262,7 @@ export default function SignUp() {
               <FormControl>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <TextField
+                  data-cy="password"
                   required
                   fullWidth
                   name="password"
@@ -276,6 +280,7 @@ export default function SignUp() {
                 Authenticator App Required for 2 factor authentication.
               </Typography>
               <Button
+                data-cy="submit"
                 type="submit"
                 fullWidth
                 variant="contained"

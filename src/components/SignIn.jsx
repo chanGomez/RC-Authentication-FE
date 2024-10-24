@@ -179,6 +179,7 @@ export default function SignIn() {
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <TextField
+                  data-cy="email-input"
                   error={emailError}
                   helperText={emailErrorMessage}
                   id="email"
@@ -208,6 +209,7 @@ export default function SignIn() {
                   </Link>
                 </Box>
                 <TextField
+                  data-cy="password-input"
                   error={passwordError}
                   helperText={passwordErrorMessage}
                   name="password"
@@ -225,6 +227,7 @@ export default function SignIn() {
               <ForgotPassword open={open} handleClose={handleClose} />
               <Button
                 type="submit"
+                data-cy="submit"
                 fullWidth
                 variant="contained"
                 onClick={validateInputs}
@@ -234,11 +237,7 @@ export default function SignIn() {
               <Typography sx={{ textAlign: "center" }}>
                 Don&apos;t have an account?{" "}
                 <span>
-                  <Link
-                    href="/"
-                    variant="body2"
-                    sx={{ alignSelf: "center" }}
-                  >
+                  <Link href="/" variant="body2" sx={{ alignSelf: "center" }}>
                     Sign up
                   </Link>
                 </span>
@@ -246,18 +245,18 @@ export default function SignIn() {
             </Box>
           ) : (
             <>
-              <div>
-                <h2>Verify 2FA</h2>
+              <div data-cy="verify-token-component">
+                <h3>A code was sent to your authentication app.</h3>
                 <div>
-                  <label>TOTP Code:</label>
+                  <label>Code:</label>
                   <input
                     type="text"
                     value={totp_token}
                     onChange={(e) => setTotp_token(e.target.value)}
                     required
                   />
-                </div>
                 <button onClick={handle2FAVerification}>Verify</button>
+                </div>
                 {/* {errorMessage && <p>{errorMessage}</p>} */}
               </div>
             </>
