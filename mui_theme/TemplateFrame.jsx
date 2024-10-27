@@ -42,7 +42,13 @@ function TemplateFrame({
 
   return (
     <ThemeProvider theme={signUpTheme}>
-      <Box sx={{ height: "100dvh", display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          height: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <StyledAppBar>
           <Toolbar
             variant="dense"
@@ -97,7 +103,7 @@ function TemplateFrame({
             </Box>
           </Toolbar>
         </StyledAppBar>
-        <Box sx={{ flex: "1 1", overflow: "auto" }}>{children}</Box>
+        <Box sx={{ flex: "1 1", overflow: "auto", display:"flex", justifyContent: "center"  }}>{children}</Box>
       </Box>
     </ThemeProvider>
   );

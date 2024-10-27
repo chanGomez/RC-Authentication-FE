@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Movies from "./components/Movies";
 import ResetPassword from "./components/ResetPassword";
+import "./App.css"
 
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
             <Route path="/" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/get-movies" element={<Movies />}/>
+            <Route path="/get-movies" element={<Movies />} />
+            <Route path="/movieee" element={<Movies />} />
           </Routes>
         </Router>
       </ThemeProvider>
