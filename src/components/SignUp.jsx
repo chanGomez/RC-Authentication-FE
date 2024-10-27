@@ -174,6 +174,7 @@ export default function SignUp() {
         navigate(`/get-movies`);
       } else {
         alert(`Invalid token.`);
+        setIsLoading(false);
       }
 
       //should the user be promoted to login or straight in?
@@ -182,11 +183,6 @@ export default function SignUp() {
       alert("Error during Login.");
     }
   }
-
-  // user submits info set loading to true
-  //if the qrcode comes in set loading to false
-  //user submits token set loading to true
-  //user token comes back valid set loading to false
 
   return (
     <>

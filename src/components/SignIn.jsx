@@ -18,6 +18,7 @@ import { signInUser } from "../API/API";
 import { useNavigate } from "react-router-dom";
 import { verify2FactorAuth, findUserByEmail } from "../API/API";
 import { validateEmail, validatePassword } from "../utils/validateInputs";
+import Spinner from "./Spinner/Spinner";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -62,6 +63,8 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -91,17 +94,20 @@ export default function SignIn() {
         password: data.get("password"),
       };
 
+      setIsLoading(true);
       const signedInResult = await signInUser(userData);
       console.log("result: ", signedInResult);
       setUserInfo(userData);
 
       if (signedInResult.status == 200) {
         setIs2FAEnabled(true);
-        alert("Verify with 2 factor authentication.");
+        setIsLoading(false);
+
+        // alert("Verify with 2 factor authentication.");
       } else {
         alert(`${signedInResult.response.data.message}`);
+        setIsLoading(false);
       }
-
     } catch (error) {
       console.error("Sign in failed:", error);
       alert("Error during sign in.");
@@ -111,6 +117,7 @@ export default function SignIn() {
   async function handle2FAVerification(e) {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await verify2FactorAuth({
         email: userInfo.email,
         totp_token: totp_token,
@@ -119,8 +126,10 @@ export default function SignIn() {
 
       if (response.status == 200) {
         alert("2 fact authentication successful.");
+        setIsLoading(false);
         navigate("/get-movies");
       } else {
+        setIsLoading(false);
         alert("Invalid TOTP code. Please try again.");
       }
     } catch (error) {
@@ -164,7 +173,9 @@ export default function SignIn() {
           >
             {is2FAEnabled ? "Verify to continue" : "Sign In"}
           </Typography>
-          {!is2FAEnabled ? (
+          {isLoading ? (
+            <Spinner />
+          ) : !is2FAEnabled && !isLoading ? (
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -255,7 +266,7 @@ export default function SignIn() {
                     onChange={(e) => setTotp_token(e.target.value)}
                     required
                   />
-                <button onClick={handle2FAVerification}>Verify</button>
+                  <button onClick={handle2FAVerification}>Verify</button>
                 </div>
                 {/* {errorMessage && <p>{errorMessage}</p>} */}
               </div>
