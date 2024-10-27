@@ -40,7 +40,7 @@ const cardData = [
     authors: [{ name: "Erica Johns", avatar: "/static/images/avatar/6.jpg" }],
   },
   {
-    img: "https://picsum.photos/800/450?random=3",
+    img: "https://facts.net/wp-content/uploads/2023/06/47-facts-about-the-movie-the-matrix-1687246419.jpg",
     tag: "Design",
     title: "Designing for the future: trends and insights",
     description:
@@ -48,7 +48,7 @@ const cardData = [
     authors: [{ name: "Kate Morrison", avatar: "/static/images/avatar/7.jpg" }],
   },
   {
-    img: "https://picsum.photos/800/450?random=4",
+    img: "https://images.squarespace-cdn.com/content/v1/507b2f30e4b066e116488db6/1388461316196-KJD51XFV7LJ6SLQE8ZP7/her-movie-poster.jpg",
     tag: "Company",
     title: "Our company's journey: milestones and achievements",
     description:
@@ -56,7 +56,7 @@ const cardData = [
     authors: [{ name: "Cindy Baker", avatar: "/static/images/avatar/3.jpg" }],
   },
   {
-    img: "https://picsum.photos/800/450?random=45",
+    img: "https://images.squarespace-cdn.com/content/v1/507b2f30e4b066e116488db6/1388461316196-KJD51XFV7LJ6SLQE8ZP7/her-movie-poster.jpg",
     tag: "Engineering",
     title: "Pioneering sustainable engineering solutions",
     description:
@@ -67,7 +67,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://picsum.photos/800/450?random=6",
+    img: "https://www.geektown.co.uk/wp-content/uploads/2011/09/source_code_movie.jpg",
     tag: "Product",
     title: "Maximizing efficiency with our latest product updates",
     description:
@@ -189,20 +189,6 @@ function Movies() {
       </div>
       <Box
         sx={{
-          display: { xs: "flex", sm: "none" },
-          flexDirection: "row",
-          gap: 1,
-          width: { xs: "100%", md: "fit-content" },
-          overflow: "auto",
-        }}
-      >
-        {/* <Search /> */}
-        <IconButton size="small" aria-label="RSS feed">
-          <RssFeedRoundedIcon />
-        </IconButton>
-      </Box>
-      <Box
-        sx={{
           display: "flex",
           flexDirection: { xs: "column-reverse", md: "row" },
           width: "100%",
@@ -257,20 +243,6 @@ function Movies() {
               border: "none",
             }}
           />
-        </Box>
-        <Box
-          sx={{
-            display: { xs: "none", sm: "flex" },
-            flexDirection: "row",
-            gap: 1,
-            width: { xs: "100%", md: "fit-content" },
-            overflow: "auto",
-          }}
-        >
-          {/* <Search /> */}
-          <IconButton size="small" aria-label="RSS feed">
-            <RssFeedRoundedIcon />
-          </IconButton>
         </Box>
       </Box>
       <Grid container spacing={2} columns={12}>
@@ -394,7 +366,7 @@ function Movies() {
             <CardMedia
               component="img"
               alt="green iguana"
-              image={cardData[5].img}
+              image={cardData[4].img}
               sx={{
                 height: { sm: "auto", md: "50%" },
                 aspectRatio: { sm: "16 / 9", md: "" },

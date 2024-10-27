@@ -54,7 +54,6 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/get-movies" element={<Movies />} />
-            <Route path="/movieee" element={<Movies />} />
           </Routes>
         </Router>
       </ThemeProvider>
