@@ -14,9 +14,7 @@ function ForgotPassword({ open, handleClose }) {
   async function handleForgotPassword(event) {
     event.preventDefault();
 
-    console.log({ email: email });
     const result = await forgotPassword({ email: email });
-    console.log(result);
 
 
     if (result.status == 200) {

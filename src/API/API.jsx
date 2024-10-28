@@ -17,7 +17,6 @@ async function findUserByEmail(email) {
 }
 
 async function createNewUser(data) {
-  console.log(data)
   try {
     let result = await axios.post("/auth/sign-up", data);
     return result;
@@ -36,7 +35,6 @@ async function signInUser(data) {
 }
 
 async function enable2FactorAuth(data) {
-  console.log("api:", data)
   try {
     let result = await axios.post("/auth/enable2fa", data);
     return result;

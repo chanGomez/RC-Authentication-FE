@@ -135,7 +135,6 @@ export default function SignUp() {
     setIsLoading(true);
     const resultUser = await createNewUser(userData);
     setEmail(userData.email);
-    console.log(resultUser);
 
     if (resultUser.status == 200) {
       setCredentialsTaken(true);
@@ -145,24 +144,20 @@ export default function SignUp() {
       alert("Error: Credentials not taken.");
     }
 
-    console.log(data.get("email"));
     const resultQRcode = await enable2FactorAuth({ email: data.get("email") });
-    console.log(resultQRcode.qrCode);
 
     if (resultQRcode.status == 201) {
-      console.log(resultQRcode); // Check what is being returned
       setQrCode(resultQRcode.data.qrCode); // Make sure this is correct
       setManualKey(resultQRcode.data.manualKey);
       setOtpauthURL(resultQRcode.data.otpauthURL);
       setIsLoading(false);
     } else {
-      console.log(resultQRcode); // Check what is being returned
+      alert(`Error during qrcode creation.`);
     }
   }
 
   async function handleVerifyTotp(event) {
     event.preventDefault();
-    console.log("line 45", totp_token, email);
 
     try {
       setIsLoading(true);

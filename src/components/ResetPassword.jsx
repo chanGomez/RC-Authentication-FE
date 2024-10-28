@@ -70,9 +70,6 @@ export default function ResetPassword() {
   const id = searchParams.get("id");
   const token = searchParams.get("token");
 
-  console.log("User ID:", id);
-  console.log("Token:", token);
-
   async function handleSubmit(event) {
     event.preventDefault();
     if (passwordError) return;
@@ -84,10 +81,8 @@ export default function ResetPassword() {
         id: id,
         token: token,
       };
-      console.log("Submitting user data:", userData);
 
       const result = await resetPassword(userData);
-      console.log("Reset password result:", result);
 
       if (result.status === 200) {
         alert("Password was reset!");

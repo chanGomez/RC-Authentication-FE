@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 // token expiration log out
 function handleTokenExpiration() {
   const navigate = useNavigate();
-  console.log("Session expired, logging out...");
   alert("Session expired, logging out...");
   Cookies.remove("authToken"); // Remove token from cookies
   navigate("/sign-in"); // Redirect to login page

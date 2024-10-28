@@ -96,7 +96,6 @@ export default function SignIn() {
 
       setIsLoading(true);
       const signedInResult = await signInUser(userData);
-      console.log("result: ", signedInResult);
       setUserInfo(userData);
 
       if (signedInResult.status == 200) {
@@ -122,7 +121,6 @@ export default function SignIn() {
         email: userInfo.email,
         totp_token: totp_token,
       });
-      console.log("line 116", response);
 
       if (response.status == 200) {
         alert("2 fact authentication successful.");
