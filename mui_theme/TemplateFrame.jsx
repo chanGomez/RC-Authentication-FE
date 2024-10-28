@@ -103,7 +103,7 @@ function TemplateFrame({
             </Box>
           </Toolbar>
         </StyledAppBar>
-        <Box sx={{ flex: "1 1", overflow: "auto", display:"flex", justifyContent: "center"  }}>{children}</Box>
+        <Box sx={{ flex: "1 1", overflow: "auto" }}>{children}</Box>
       </Box>
     </ThemeProvider>
   );
