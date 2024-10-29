@@ -194,10 +194,18 @@ export default function SignUp() {
           {isLoading ? (
             <Spinner />
           ) : credentialsTaken && !isLoading ? (
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ textAlign: "center", color: "blue" }}>
-                Scan this QR code with your authenticator app. Ex, Google
-                Authenticator, Authy, ID.me
+                Scan this QR code with your authenticator app.
+              </Typography>
+              <Typography sx={{ textAlign: "center", color: "blue" }}>
+                Ex, Google Authenticator, Authy, ID.me
               </Typography>
               <QRCodeComponent qrCode={qrCode} otpauthURL={otpauthURL} />
               <div style={{ display: "flex", alignItems: "center" }}>
