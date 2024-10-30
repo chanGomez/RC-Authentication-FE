@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { verify2FactorAuth, findUserByEmail } from "../API/API";
 import { validateEmail, validatePassword } from "../utils/validateInputs";
 import Spinner from "./Spinner/Spinner";
+import DOMPurify from "dompurify";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -90,8 +91,8 @@ export default function SignIn() {
     try {
       const data = new FormData(event.currentTarget);
       let userData = {
-        email: data.get("email"),
-        password: data.get("password"),
+        email: DOMPurify.sanitize(data.get("email")),
+        password: DOMPurify.sanitize(data.get("password")),
       };
 
       setIsLoading(true);

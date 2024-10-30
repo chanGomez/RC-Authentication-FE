@@ -16,6 +16,7 @@ import QRCodeComponent from "./QRCodeComponent";
 import { enable2FactorAuth } from "../API/API";
 import { verify2FactorAuth } from "../API/API";
 import Spinner from "./Spinner/Spinner";
+import DOMPurify from "dompurify";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -127,9 +128,9 @@ export default function SignUp() {
 
     const data = new FormData(event.currentTarget);
     let userData = {
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
+      username: DOMPurify.sanitize(data.get("username")),
+      email: DOMPurify.sanitize(data.get("email")),
+      password: DOMPurify.sanitize(data.get("password")),
     };
 
     setIsLoading(true);

@@ -16,6 +16,7 @@
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
     "axios": "^1.7.7",
+    "dompurify": "^3.1.7",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "qrcode": "^1.5.4",
