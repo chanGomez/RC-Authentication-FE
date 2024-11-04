@@ -6,20 +6,20 @@ import { useNavigate } from "react-router-dom";
 function handleTokenExpiration() {
   const navigate = useNavigate();
   alert("Session expired, logging out...");
-  Cookies.remove("authToken"); // Remove token from cookies
-  navigate("/sign-in"); // Redirect to login page
+  Cookies.remove("authToken"); 
+  navigate("/sign-in"); 
 }
 
 // Function to handle session expiration
  export default function setSessionExpirationHandler(token) {
    const decodedToken = jwtDecode(token);
-   const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+   const expirationTime = decodedToken.exp * 1000;
    const timeLeft = expirationTime - Date.now();
    if (timeLeft > 0) {
      setTimeout(() => {
-       handleTokenExpiration(); // Call the expiration handler
+       handleTokenExpiration();
      }, timeLeft);
    } else {
-     handleTokenExpiration(); // Token already expired
+     handleTokenExpiration();
    }
  };
